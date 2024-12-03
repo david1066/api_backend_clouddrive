@@ -77,7 +77,7 @@ class ApiController extends Controller
         ]);
 
         // Email check
-        $user = User::whereraw("name = ?", $request->name)->where('state_id',1)->first();
+        $user = User::whereraw("email = ?", $request->email)->first();
         $specifiedDate = Carbon::parse($user->two_factor_expires_at); 
        
         if($user->two_factor && empty($request->two_factor_code)){

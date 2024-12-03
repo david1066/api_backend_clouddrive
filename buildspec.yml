@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      php: 8.0
+      nodejs: 14
+    commands:
+      - curl -sS https://getcomposer.org/installer | php
+      - php composer.phar install
+
+  build:
+    commands:
+      - cp .env.example .env
+      - php artisan key:generate
+      - php artisan config:cache
+      - php artisan route:cache
+      - php artisan view:cache
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes

@@ -3,6 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - echo Installing dependencies...
       - curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer | bash
       - export PATH="$HOME/.phpenv/bin:$PATH"
       - eval "$(phpenv init -)"
@@ -14,8 +15,10 @@ phases:
 
   build:
     commands:
+      - echo Building the application...
       - cp .env.example .env
       - php artisan key:generate
+      - php artisan migrate --force
       - php artisan config:cache
       - php artisan route:cache
       - php artisan view:cache

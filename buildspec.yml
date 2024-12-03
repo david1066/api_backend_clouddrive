@@ -10,17 +10,12 @@ phases:
       - phpenv install 8.3.0
       - phpenv global 8.3.0
       - php -v
-      - curl -sS https://getcomposer.org/installer | php
-      - php composer.phar update
-      - php composer.phar install
-      - php composer.phar clear-cache
-
+   
   build:
     commands:
       - echo Building the application...
       - cp .env.example .env
       - php artisan key:generate
-      - php artisan migrate --force
       - php artisan config:cache
       - php artisan route:cache
       - php artisan view:cache

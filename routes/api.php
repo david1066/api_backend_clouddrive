@@ -9,11 +9,12 @@ use App\Http\Controllers\Api\ApiController;
 //logueo de usuario
 Route::post("login", [ApiController::class, "login"]);
 // Protected Routes
+// creacion de usuarios
+Route::post("register", [ApiController::class, "store"]); 
 Route::group([
     "middleware" => ["auth:sanctum"]
 ], function(){
-    // creacion de usuarios
-    Route::post("user", [ApiController::class, "store"]); 
+    
     // actualizacion de usuarios
     Route::put("user", [ApiController::class, "update"]);
     // trae un usuario por id

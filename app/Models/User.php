@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -19,8 +20,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
         'password',
+        'two_factor',
+        'two_factor_code',
+        'two_factor_expires_at',
     ];
 
     /**
@@ -45,4 +50,22 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    public function generateTwoFactorCode(): void
+    {
+        $this->timestamps = false;  // Prevent updating the 'updated_at' column
+        $this->two_factor_code = rand(100000, 999999);  // Generate a random code
+        $this->two_factor_expires_at = now()->addMinutes(20);  // Set expiration time
+        $this->save();
+    }
+
+    public function resetTwoFactorCode(): void
+    {
+        $this->timestamps = false;
+        $this->two_factor_code = null;
+        $this->two_factor_expires_at = null;
+        $this->save();
+    }
+
 }

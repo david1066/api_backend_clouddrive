@@ -25,6 +25,7 @@ Route::group([
     Route::post("file", [FileController::class, "store"]);
     //trae los archivos del usuario
     Route::get("file", [FileController::class, "getAllFile"]);
+    Route::get("file/{fileName}", [FileController::class, "download"]);
     //elimina un archivo
     Route::delete("file/{fileName}", [FileController::class, "deleteFile"]); 
 

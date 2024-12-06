@@ -18,6 +18,7 @@
 5. El proyecto esta desarrollado con laravel 11, lo que proporciona mayor seguridad y escalabilidad.
 6. Autenticacion por doble factor, proporciona mayor seguridad.
 7. Laravel 11 es compatible con php 8.2, 8.3 y más.
+8. Se configura el cors de laravel para que ningun aplicacion de un origen distinto a produccion pueda conectarse 
 
 
 

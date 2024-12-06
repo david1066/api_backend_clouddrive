@@ -4,21 +4,35 @@ phases:
   install:
     commands:
       - echo Installing dependencies...
+      # Instalar phpenv y PHP 8.2
       - curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer | bash
       - export PATH="$HOME/.phpenv/bin:$PATH"
       - eval "$(phpenv init -)"
       - phpenv install 8.2.0
       - phpenv global 8.2.0
       - php -v
+      # Instalar Composer globalmente
       - curl -sS https://getcomposer.org/installer | php
-      - php composer.phar install --no-dev --optimize-autoloader -vvv
+      - mv composer.phar /usr/local/bin/composer
+      # Verificar instalación de Composer
+      - composer --version
+
+  pre_build:
+    commands:
+      - echo Building the application...
+      # Instalar las dependencias de Composer
+      - composer install --no-dev --optimize-autoloader -vvv
 
   build:
     commands:
-        # Verifica los logs en tiempo real durante la instalación
-      - tail -f /var/log/eb-activity.log &  # Para ver los logs de actividad de Elastic Beanstalk en tiempo real
-      - composer install --no-dev --optimize-autoloader -vvv
+      # Opcionalmente, puedes verificar los logs de la instalación
+      - tail -f /var/log/eb-activity.log &
+
 artifacts:
   files:
     - '**/*'
   discard-paths: yes
+
+proxy:
+  upload-artifacts: yes
+  logs: yes

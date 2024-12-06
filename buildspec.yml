@@ -11,18 +11,13 @@ phases:
       - phpenv global 8.2.0
       - php -v
       - curl -sS https://getcomposer.org/installer | php
-      - php composer.phar install
+      - php composer.phar install --no-dev --optimize-autoloader -vvv
 
   build:
     commands:
-      - echo Building the application...
-      - cp .env.example .env
-      - php artisan key:generate
-      - php artisan migrate --force
-      - php artisan config:cache
-      - php artisan route:cache
-      - php artisan view:cache
-
+        # Verifica los logs en tiempo real durante la instalación
+      - tail -f /var/log/eb-activity.log &  # Para ver los logs de actividad de Elastic Beanstalk en tiempo real
+      - composer install --no-dev --optimize-autoloader -vvv
 artifacts:
   files:
     - '**/*'

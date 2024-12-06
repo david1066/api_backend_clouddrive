@@ -3,45 +3,25 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      php: 8.3
+      php: 8.2 
     commands:
-      # Actualiza apt-get repositorios
-      - apt-get update -y
-      - apt-get install -y lsb-release ca-certificates apt-transport-https software-properties-common
+      - curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer | bash
+      - export PATH="$HOME/.phpenv/bin:$PATH"
+      - eval "$(phpenv init -)"
+      - phpenv install 8.2.0
+      - phpenv global 8.2.0
+      - php -v
+      - curl -sS https://getcomposer.org/installer | php
+      - php composer.phar install
 
-      # Instala las extensiones necesarias para Laravel desde los repositorios estándar
-      - apt-get install -y \
-          libzip-dev \
-          php8.3-mysql \
-          php8.3-xml \
-          php8.3-mbstring \
-          php8.3-curl \
-          php8.3-zip \
-          php8.3-bcmath \
-          php8.3-json \
-          php8.3-intl \
-          php8.3-gd \
-          php8.3-imagick \
-          php8.3-soap \
-          php8.3-opcache \
-          git \
-          curl
-
-      # Instalar Composer globalmente
-      - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-  pre_build:
+  build:
     commands:
-      # Ejecuta Composer para instalar las dependencias de PHP
-      - echo "Instalando dependencias de Laravel..."
-      - composer install --no-dev --optimize-autoloader
+      - php artisan key:generate
+      - php artisan config:cache
+      - php artisan route:cache
+      - php artisan view:cache
 
 artifacts:
   files:
     - '**/*'
-  name: $(date +%Y-%m-%dT%H:%M:%S).zip
   discard-paths: yes
-
-proxy:
-  upload-artifacts: yes
-  logs: yes

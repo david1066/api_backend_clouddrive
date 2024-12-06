@@ -126,7 +126,12 @@ class ApiController extends Controller
                 // Password matched
                 $token = $user->createToken("mytoken")->plainTextToken;
 
-                
+                    unset($user['two_factor']);
+                    unset($user['two_factor_code']);
+                    unset($user['two_factor_expires_at']);
+                    unset($user['email_verified_at']);
+                    unset($user['created_at']);
+                    unset($user['updated_at']);
                   return response()->json([
                         "code" => 200,
                         "status" => "success",

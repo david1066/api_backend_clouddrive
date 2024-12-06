@@ -12,11 +12,11 @@ class FileController extends Controller
 {
     public function store(Request $request)
     {
+    
         // Validar los datos de entrada
         try {
             $request->validate([
-                "name" => "required|string",
-                "file" => "required|file|mimes:jpeg,png,jpg,gif,svg|max:2048" // Validar el archivo
+                "file" => "required|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048" // Validar el archivo
             ]);
         } catch (\Exception $e) {
             return response()->json([

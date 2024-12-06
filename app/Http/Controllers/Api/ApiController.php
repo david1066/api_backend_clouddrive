@@ -35,7 +35,8 @@ class ApiController extends Controller
                 "name" => "required|string",
                 "last_name" => "required|string",
                 "email" => "required|string|email:rfc,dns|unique:users",
-                "password" => "required|confirmed"
+                "password" => "required|confirmed",
+                "two_factor" => "required|integer"
             ]);
             
         }catch(\Exception $e){
@@ -54,6 +55,7 @@ class ApiController extends Controller
             "last_name" => $request->last_name,
             "email" => $request->email,
             "password" => bcrypt($request->password),
+            "two_factor" => $request->two_factor,
                    
         ]);
        
@@ -186,7 +188,7 @@ class ApiController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'two_factor' => !empty($user->email_verified_at) ? $request->two_factor : $user->two_factor,
+            'two_factor' =>$request->two_factor,
             'password' => !empty($request->password) ? bcrypt($request->password) : $user->password,
         ]);
         

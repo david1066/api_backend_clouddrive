@@ -28,5 +28,7 @@ El proyecto esta desplegado en la nube, asi que no hay que instalar nada
 
 http://api-cloud-drive.us-east-1.elasticbeanstalk.com
 
+# modelo entidad relacion
 
 
+<img src="https://recursosimagenes.s3.us-east-1.amazonaws.com/recursos/modelo+entidad+relacion.png" width="400">

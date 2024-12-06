@@ -19,12 +19,16 @@ phases:
 
   pre_build:
     commands:
+      - curl -sS https://getcomposer.org/installer | php
+      - mv composer.phar /usr/local/bin/composer
       - echo Building the application...
       # Instalar las dependencias de Composer
       - composer install --no-dev --optimize-autoloader -vvv
 
   build:
     commands:
+      - curl -sS https://getcomposer.org/installer | php
+      - mv composer.phar /usr/local/bin/composer
       # Opcionalmente, puedes verificar los logs de la instalación
       - tail -f /var/log/eb-engine.log &
 

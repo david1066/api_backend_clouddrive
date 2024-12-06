@@ -2,25 +2,26 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      php: 8.3 
     commands:
-      - echo Installing dependencies...
-      - curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer | bash
-      - export PATH="$HOME/.phpenv/bin:$PATH"
-      - eval "$(phpenv init -)"
-      - phpenv install 8.3.0
-      - phpenv global 8.3.0
-      - php -v
+      - apt-get update -y
+      - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      - apt-get install -y libpq-dev libzip-dev
+      - apt-get install -y php-pgsql
+      - curl -sS https://getcomposer.org/installer -o composer-setup.php 
+      - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
    
-  build:
+  pre_build:
     commands:
       - echo Building the application...
-      - cp .env.example .env
-      - php artisan key:generate
-      - php artisan config:cache
-      - php artisan route:cache
-      - php artisan view:cache
-
+      - composer install
+    
 artifacts:
   files:
     - '**/*'
+  name: $(date +%Y-%m-%dT%H:%M:%S).zip
   discard-paths: yes
+proxy:
+    upload-artifacts: yes
+    logs: yes

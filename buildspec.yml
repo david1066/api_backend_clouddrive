@@ -3,25 +3,42 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      php: 8.3 
+      php: 8.2
     commands:
+      # Actualiza los repositorios y instala las dependencias necesarias
       - apt-get update -y
+      - apt-get install -y \
+          libzip-dev \
+          php-mysql \
+          php-xml \
+          php-mbstring \
+          php-curl \
+          php-zip \
+          php-bcmath \
+          php-json \
+          php-intl \
+          php-gd \
+          php-imagick \
+          php-soap \
+          php-opcache \
+          git \
+          curl
+
+      # Instala Composer globalmente
       - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-      - apt-get install -y libpq-dev libzip-dev
-      - apt-get install -y php-pgsql
-      - curl -sS https://getcomposer.org/installer -o composer-setup.php 
-      - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-   
+
   pre_build:
     commands:
-      - echo Building the application...
-      - composer install
-    
+      # Ejecuta Composer para instalar las dependencias de PHP
+      - echo "Instalando dependencias de Laravel..."
+      - composer install --no-dev --optimize-autoloader
+
 artifacts:
   files:
     - '**/*'
   name: $(date +%Y-%m-%dT%H:%M:%S).zip
   discard-paths: yes
+
 proxy:
-    upload-artifacts: yes
-    logs: yes
+  upload-artifacts: yes
+  logs: yes

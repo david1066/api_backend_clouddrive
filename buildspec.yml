@@ -26,7 +26,7 @@ phases:
   build:
     commands:
       # Opcionalmente, puedes verificar los logs de la instalación
-      - tail -f /var/log/eb-activity.log &
+      - tail -f /var/log/eb-engine.log &
 
 artifacts:
   files:

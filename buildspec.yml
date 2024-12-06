@@ -4,39 +4,18 @@ phases:
   install:
     commands:
       - echo Installing dependencies...
-      # Instalar phpenv y PHP 8.2
-      - curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer | bash
-      - export PATH="$HOME/.phpenv/bin:$PATH"
-      - eval "$(phpenv init -)"
-      - phpenv install 8.2.0
-      - phpenv global 8.2.0
-      - php -v
-      # Instalar Composer globalmente (especificando la versión)
-      - curl -sS https://getcomposer.org/installer | php -- --version=2.2.6
+      - export COMPOSER_ROOT_VERSION=2.2.6
+      - curl -sS https://getcomposer.org/installer | php
       - mv composer.phar /usr/local/bin/composer
-      # Verificar instalación de Composer
       - composer --version
 
   pre_build:
     commands:
-      # Verificar si Composer ya está instalado y en la versión correcta
-      - if ! composer --version | grep -q '2.2.6'; then curl -sS https://getcomposer.org/installer | php -- --version=2.2.6 && mv composer.phar /usr/local/bin/composer; fi
+      - export COMPOSER_ROOT_VERSION=2.2.6
       - echo Building the application...
-      # Instalar las dependencias de Composer
       - composer install --no-dev --optimize-autoloader -vvv
 
   build:
     commands:
-      # Verificar si Composer ya está instalado y en la versión correcta
-      - if ! composer --version | grep -q '2.2.6'; then curl -sS https://getcomposer.org/installer | php -- --version=2.2.6 && mv composer.phar /usr/local/bin/composer; fi
-      # Opcionalmente, puedes verificar los logs de la instalación
+      - export COMPOSER_ROOT_VERSION=2.2.6
       - tail -f /var/log/eb-engine.log &
-
-artifacts:
-  files:
-    - '**/*'
-  discard-paths: yes
-
-proxy:
-  upload-artifacts: yes
-  logs: yes

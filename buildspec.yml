@@ -11,24 +11,24 @@ phases:
       - phpenv install 8.2.0
       - phpenv global 8.2.0
       - php -v
-      # Instalar Composer globalmente
-      - curl -sS https://getcomposer.org/installer | php
+      # Instalar Composer globalmente (especificando la versión)
+      - curl -sS https://getcomposer.org/installer | php -- --version=2.2.6
       - mv composer.phar /usr/local/bin/composer
       # Verificar instalación de Composer
       - composer --version
 
   pre_build:
     commands:
-      - curl -sS https://getcomposer.org/installer | php
-      - mv composer.phar /usr/local/bin/composer
+      # Verificar si Composer ya está instalado y en la versión correcta
+      - if ! composer --version | grep -q '2.2.6'; then curl -sS https://getcomposer.org/installer | php -- --version=2.2.6 && mv composer.phar /usr/local/bin/composer; fi
       - echo Building the application...
       # Instalar las dependencias de Composer
       - composer install --no-dev --optimize-autoloader -vvv
 
   build:
     commands:
-      - curl -sS https://getcomposer.org/installer | php
-      - mv composer.phar /usr/local/bin/composer
+      # Verificar si Composer ya está instalado y en la versión correcta
+      - if ! composer --version | grep -q '2.2.6'; then curl -sS https://getcomposer.org/installer | php -- --version=2.2.6 && mv composer.phar /usr/local/bin/composer; fi
       # Opcionalmente, puedes verificar los logs de la instalación
       - tail -f /var/log/eb-engine.log &
 

@@ -5,15 +5,11 @@ phases:
     runtime-versions:
       php: 8.3
     commands:
-      # Actualiza apt-get repositorios y añade el repositorio de PHP
+      # Actualiza apt-get repositorios
       - apt-get update -y
       - apt-get install -y lsb-release ca-certificates apt-transport-https software-properties-common
 
-      # Agregar el repositorio de PHP (para versiones más recientes de PHP y extensiones)
-      - curl -sS https://packages.sury.org/php/README.txt | bash -x
-      - apt-get update -y
-
-      # Instalar las extensiones necesarias para Laravel
+      # Instala las extensiones necesarias para Laravel desde los repositorios estándar
       - apt-get install -y \
           libzip-dev \
           php8.3-mysql \
@@ -36,7 +32,7 @@ phases:
 
   pre_build:
     commands:
-      # Ejecutar Composer para instalar las dependencias de PHP
+      # Ejecuta Composer para instalar las dependencias de PHP
       - echo "Instalando dependencias de Laravel..."
       - composer install --no-dev --optimize-autoloader
 

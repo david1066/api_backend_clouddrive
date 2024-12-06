@@ -72,7 +72,8 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        }
+        },
+        "COMPOSER_ROOT_VERSION":"2.2.6"
     },
     "minimum-stability": "stable",
     "prefer-stable": true

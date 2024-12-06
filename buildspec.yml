@@ -3,33 +3,40 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      php: 8.2
+      php: 8.3
     commands:
-      # Actualiza los repositorios y instala las dependencias necesarias
+      # Actualiza apt-get repositorios y añade el repositorio de PHP
       - apt-get update -y
+      - apt-get install -y lsb-release ca-certificates apt-transport-https software-properties-common
+
+      # Agregar el repositorio de PHP (para versiones más recientes de PHP y extensiones)
+      - curl -sS https://packages.sury.org/php/README.txt | bash -x
+      - apt-get update -y
+
+      # Instalar las extensiones necesarias para Laravel
       - apt-get install -y \
           libzip-dev \
-          php-mysql \
-          php-xml \
-          php-mbstring \
-          php-curl \
-          php-zip \
-          php-bcmath \
-          php-json \
-          php-intl \
-          php-gd \
-          php-imagick \
-          php-soap \
-          php-opcache \
+          php8.3-mysql \
+          php8.3-xml \
+          php8.3-mbstring \
+          php8.3-curl \
+          php8.3-zip \
+          php8.3-bcmath \
+          php8.3-json \
+          php8.3-intl \
+          php8.3-gd \
+          php8.3-imagick \
+          php8.3-soap \
+          php8.3-opcache \
           git \
           curl
 
-      # Instala Composer globalmente
+      # Instalar Composer globalmente
       - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
   pre_build:
     commands:
-      # Ejecuta Composer para instalar las dependencias de PHP
+      # Ejecutar Composer para instalar las dependencias de PHP
       - echo "Instalando dependencias de Laravel..."
       - composer install --no-dev --optimize-autoloader
 

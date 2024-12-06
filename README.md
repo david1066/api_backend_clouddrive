@@ -8,6 +8,13 @@
 </p>
 
 
+## Requirements
+
+1. Composer 2.2.6
+2. Php 8.2 o superior
+3. No requiere node.js
+4. Motor de Base de datos Mysql 8.0 o superior
+
 
 ## Funcionalidades
 
@@ -22,13 +29,21 @@
 
 
 
-## Instalación y despliegue
+## Cloud
 
 El proyecto esta desplegado en la nube, asi que no hay que instalar nada
 
 http://api-cloud-drive.us-east-1.elasticbeanstalk.com
 
-# modelo entidad relacion
+## Diagrama de arquitectura
+
+<img src="https://recursosimagenes.s3.us-east-1.amazonaws.com/recursos/diagrama+de+arquitectura.jpg" width="800">
+
+## Modelo entidad relacion
 
 
 <img src="https://recursosimagenes.s3.us-east-1.amazonaws.com/recursos/modelo+entidad+relacion.png" width="600">
+
+## Api Documentation
+
+https://solar-sunset-874293.postman.co/workspace/clouddrive-documentation~58558ad9-ddeb-4e82-8094-320ddc0cf9fa/collection/35019091-66ff2860-c635-467b-a8d1-5aea3442385b?action=share&creator=35019091
